@@ -45,7 +45,6 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
   const [isTraining, setIsTraining] = useState<boolean>(false);
   const [trainingError, setTrainingError] = useState<string | null>(null);
 
-  // Sync target column when profile or initial target changes
   useEffect(() => {
     if (initialTarget) {
       setTargetColumn(initialTarget);
@@ -59,7 +58,6 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
     }
   }, [datasetProfile, initialTarget]);
 
-  // Pre-fill ignored columns (e.g. ID columns)
   useEffect(() => {
     if (datasetProfile) {
       const ids = datasetProfile.columns
@@ -100,8 +98,6 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
       }
 
       const trainResult = await res.json();
-
-      // Fetch full details of newly trained model
       const detailRes = await fetch(`/api/models/${trainResult.model_id}`);
       const detailData = await detailRes.json();
 
@@ -128,34 +124,32 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
   };
 
   return (
-    <div className="space-y-8">
-      {/* Configuration & Training Launcher */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Cols: Setup Card */}
-        <div className="lg:col-span-2 rounded-2xl border border-slate-800 bg-slate-900/50 p-6 space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+    <div className="space-y-12">
+      {/* Top Configuration & Training Form */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 rounded-2xl border border-zinc-200 bg-white p-8 space-y-8">
+          <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
             <div>
-              <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <Cpu className="w-5 h-5 text-indigo-400" />
-                AutoML Training Configurator
+              <h2 className="text-lg font-bold tracking-tight text-black flex items-center gap-2">
+                <Cpu className="w-5 h-5 text-black stroke-[1.75]" />
+                AutoML Pipeline Setup
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Automatically pre-processes features, trains multiple baseline models, tunes hyperparameters, and selects the winner.
+              <p className="text-xs font-mono text-zinc-400 mt-1">
+                Automatic preprocessing • Ensemble benchmarking • Winner selection
               </p>
             </div>
             {isTraining && (
-              <span className="inline-flex items-center gap-1.5 text-xs text-indigo-400 font-mono animate-pulse">
-                <span className="w-2 h-2 rounded-full bg-indigo-400" />
-                Training in progress...
+              <span className="flex items-center gap-1.5 text-xs font-mono text-zinc-600 animate-pulse">
+                <span className="w-2 h-2 rounded-full bg-black" />
+                Training...
               </span>
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Choose Dataset */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                1. Select Training Dataset
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                Dataset
               </label>
               <select
                 value={selectedDataset?.id || ''}
@@ -163,53 +157,51 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
                   const found = datasets.find((d) => d.id === e.target.value);
                   if (found) onSelectDataset(found);
                 }}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-black font-medium"
               >
                 {datasets.map((d) => (
                   <option key={d.id} value={d.id}>
-                    {d.name} ({d.row_count} rows, {d.col_count} cols)
+                    {d.name} ({d.row_count} rows)
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Target Column */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                2. Target Column to Predict
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                Target Variable
               </label>
               <select
                 value={targetColumn}
                 onChange={(e) => setTargetColumn(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 font-mono"
+                className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-black font-mono font-medium"
               >
                 {datasetProfile?.columns.map((c) => (
                   <option key={c.name} value={c.name}>
-                    {c.name} ({c.type}{c.target_recommendation ? ` • Rec: ${c.target_recommendation}` : ''})
+                    {c.name} ({c.type})
                   </option>
                 ))}
               </select>
             </div>
           </div>
 
-          {/* Model Name & Task Type */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Model Name (Optional)
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                Model Name
               </label>
               <input
                 type="text"
                 placeholder={selectedDataset ? `${selectedDataset.name} Predictor` : 'Custom Model Name'}
                 value={modelName}
                 onChange={(e) => setModelName(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-black"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Task Type Detection
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                Task Mode
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {(['auto', 'classification', 'regression'] as const).map((t) => (
@@ -217,10 +209,10 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
                     key={t}
                     type="button"
                     onClick={() => setTaskOverride(t)}
-                    className={`py-2 text-xs rounded-xl border capitalize font-medium transition-all ${
+                    className={`py-2 text-xs font-mono uppercase rounded-xl border transition-all ${
                       taskOverride === t
-                        ? 'border-indigo-500 bg-indigo-500/20 text-indigo-300'
-                        : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-slate-300'
+                        ? 'border-black bg-black text-white font-bold'
+                        : 'border-zinc-200 bg-white text-zinc-500 hover:border-zinc-400'
                     }`}
                   >
                     {t}
@@ -230,18 +222,18 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
             </div>
           </div>
 
-          {/* Exclude ID / Unwanted columns */}
+          {/* Feature selection */}
           {datasetProfile && (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-semibold text-slate-300">
-                  Feature Column Selection (Uncheck to Exclude / IDs / Noise)
+                <label className="text-xs font-mono uppercase tracking-wider text-zinc-400">
+                  Included Features
                 </label>
-                <span className="text-[11px] text-slate-500 font-mono">
-                  {datasetProfile.columns.length - 1 - ignoredColumns.length} active features
+                <span className="text-[11px] font-mono text-zinc-400">
+                  {datasetProfile.columns.length - 1 - ignoredColumns.length} Active
                 </span>
               </div>
-              <div className="flex flex-wrap gap-2 max-h-24 overflow-y-auto p-2 rounded-xl bg-slate-950/60 border border-slate-800">
+              <div className="flex flex-wrap gap-2 max-h-24 overflow-y-auto p-3 rounded-xl border border-zinc-200 bg-zinc-50/50">
                 {datasetProfile.columns
                   .filter((c) => c.name !== targetColumn)
                   .map((c) => {
@@ -251,13 +243,13 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
                         key={c.name}
                         type="button"
                         onClick={() => toggleIgnoredColumn(c.name)}
-                        className={`text-xs px-2.5 py-1 rounded-lg border font-mono flex items-center gap-1.5 transition-all ${
+                        className={`text-xs px-2.5 py-1 rounded-lg border font-mono transition-all flex items-center gap-1.5 ${
                           isIgnored
-                            ? 'bg-rose-500/10 border-rose-500/30 text-rose-400 line-through'
-                            : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
+                            ? 'bg-zinc-100 border-zinc-200 text-zinc-400 line-through'
+                            : 'bg-white border-zinc-300 text-black shadow-2xs'
                         }`}
                       >
-                        {!isIgnored && <Check className="w-3 h-3 text-indigo-400" />}
+                        {!isIgnored && <Check className="w-3 h-3 text-black" />}
                         <span>{c.name}</span>
                       </button>
                     );
@@ -266,87 +258,86 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
             </div>
           )}
 
-          {/* Action Trigger */}
+          {/* Action Button: Minimalist Icon + Label */}
           <div className="pt-2 flex items-center justify-between">
             <button
               onClick={handleStartTraining}
               disabled={isTraining || !selectedDataset || !targetColumn}
-              className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+              title="Launch AutoML Training"
+              className={`p-3.5 px-6 rounded-xl font-semibold text-xs tracking-tight transition-all cursor-pointer flex items-center gap-2.5 ${
                 isTraining || !selectedDataset || !targetColumn
-                  ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:opacity-95 text-white shadow-lg shadow-indigo-500/25'
+                  ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed'
+                  : 'bg-black text-white hover:bg-zinc-800 shadow-sm'
               }`}
             >
               {isTraining ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Training Candidate Algorithms...</span>
+                  <span>Benchmarking...</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-4 h-4 fill-current" />
-                  <span>Launch AutoML Training</span>
+                  <Play className="w-4 h-4 fill-current stroke-none" />
+                  <span>Start Training</span>
                 </>
               )}
             </button>
 
-            <span className="text-xs text-slate-500 hidden sm:block">
-              Auto-evaluates Random Forest, Gradient Boosting & Linear/Logistic baselines
+            <span className="text-xs font-mono text-zinc-400 hidden sm:block">
+              Auto-scores baseline algorithms
             </span>
           </div>
 
           {trainingError && (
-            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+            <div className="p-3 rounded-xl border border-red-200 bg-red-50 text-red-700 text-xs flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               <span>{trainingError}</span>
             </div>
           )}
         </div>
 
-        {/* Right Col: Trained Models Library */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 flex flex-col justify-between">
+        {/* Right: Trained Models Archive */}
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Trophy className="w-3.5 h-3.5 text-amber-400" />
-                Trained Models ({models.length})
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xs font-mono uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <Trophy className="w-3.5 h-3.5 text-black" />
+                Models ({models.length})
               </h3>
             </div>
 
             {models.length === 0 ? (
-              <div className="p-5 rounded-xl border border-slate-800/80 bg-slate-950/40 text-center text-xs text-slate-500">
-                No models trained yet. Click "Launch AutoML Training" to benchmark algorithms.
+              <div className="p-6 rounded-2xl border border-dashed border-zinc-200 text-center text-xs font-mono text-zinc-400">
+                No models trained
               </div>
             ) : (
-              <div className="space-y-2.5 max-h-[400px] overflow-y-auto pr-1">
+              <div className="space-y-2.5 max-h-[420px] overflow-y-auto pr-1">
                 {models.map((m) => {
                   const isSelected = selectedModel?.metadata.id === m.id;
-                  const isClassification = m.task_type === 'classification';
+                  const isClass = m.task_type === 'classification';
                   return (
                     <div
                       key={m.id}
                       onClick={() => onSelectModel(m.id)}
-                      className={`p-3 rounded-xl border cursor-pointer transition-all ${
+                      className={`p-3.5 rounded-xl border cursor-pointer transition-all ${
                         isSelected
-                          ? 'border-indigo-500 bg-indigo-500/10 text-white shadow-sm'
-                          : 'border-slate-800/80 bg-slate-950/50 hover:bg-slate-800/40 text-slate-300'
+                          ? 'border-black bg-black text-white shadow-sm'
+                          : 'border-zinc-200 bg-white hover:border-zinc-400 text-zinc-700'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-semibold truncate max-w-[150px]">{m.name}</span>
-                        <span className={`text-[10px] px-1.5 py-0.2 rounded font-mono font-bold ${
-                          isClassification
-                            ? 'bg-purple-500/20 text-purple-300'
-                            : 'bg-emerald-500/20 text-emerald-300'
+                        <span className="text-xs font-semibold truncate max-w-[140px]">{m.name}</span>
+                        <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-bold ${
+                          isSelected ? 'bg-zinc-800 text-white' : 'bg-zinc-100 text-black'
                         }`}>
-                          {isClassification ? `F1: ${(m.primary_metric * 100).toFixed(1)}%` : `R²: ${m.primary_metric.toFixed(3)}`}
+                          {isClass ? `F1: ${(m.primary_metric * 100).toFixed(1)}%` : `R²: ${m.primary_metric.toFixed(3)}`}
                         </span>
                       </div>
-                      <div className="text-[11px] text-slate-400 flex items-center justify-between">
+                      <div className={`text-[10px] font-mono flex items-center justify-between ${
+                        isSelected ? 'text-zinc-400' : 'text-zinc-500'
+                      }`}>
                         <span className="truncate">{m.algorithm}</span>
-                        <span className="font-mono text-slate-500 text-[10px]">
-                          Target: {m.target_column}
-                        </span>
+                        <span>{m.target_column}</span>
                       </div>
                     </div>
                   );
@@ -355,100 +346,99 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
             )}
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-500">
-            Selected model is ready for batch CSV inference and simulator.
-          </div>
+          <p className="text-[11px] font-mono text-zinc-400 pt-4 border-t border-zinc-100">
+            Selected model ready for scoring
+          </p>
         </div>
       </div>
 
-      {/* Selected Model Performance Dashboard */}
+      {/* Selected Model Deep Dive */}
       {selectedModel && (
-        <div className="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
-          {/* Dashboard Header & CTA */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div className="space-y-8 rounded-2xl border border-zinc-200 bg-white p-8">
+          {/* Header & Minimalist Actions */}
+          <div className="flex items-center justify-between pb-6 border-b border-zinc-100">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-                <h3 className="text-lg font-bold text-white">{selectedModel.metadata.name}</h3>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase font-semibold">
-                  Winner: {selectedModel.metadata.algorithm}
+              <div className="flex items-center gap-3">
+                <h3 className="text-xl font-bold tracking-tight text-black">{selectedModel.metadata.name}</h3>
+                <span className="text-xs font-mono uppercase px-2.5 py-0.5 rounded-full bg-zinc-100 text-zinc-700 font-bold border border-zinc-200">
+                  {selectedModel.metadata.algorithm}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-1">
-                Trained on {selectedModel.training_samples} rows • Target: <span className="font-mono text-indigo-300">{selectedModel.metadata.target_column}</span> • Task: {selectedModel.metadata.task_type}
+              <p className="text-xs font-mono text-zinc-400 mt-1">
+                Trained on {selectedModel.training_samples} rows • Target: {selectedModel.metadata.target_column} • Task: {selectedModel.metadata.task_type}
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => onProceedToSimulator(selectedModel.metadata.id)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-all cursor-pointer"
+                title="Open Simulator"
+                className="p-3 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 text-black transition-all cursor-pointer shadow-2xs"
               >
-                <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                <span>What-If Simulator</span>
+                <Sparkles className="w-4 h-4 stroke-[1.75]" />
               </button>
               <button
                 onClick={() => onProceedToPredict(selectedModel.metadata.id)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white text-xs font-semibold shadow-md shadow-indigo-500/20 transition-all cursor-pointer"
+                title="Batch Predict CSV"
+                className="p-3 rounded-xl bg-black text-white hover:bg-zinc-800 transition-all cursor-pointer shadow-sm flex items-center gap-1.5"
               >
-                <span>Predict on CSV</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4 stroke-[1.75]" />
               </button>
             </div>
           </div>
 
-          {/* Metric KPI Cards */}
+          {/* Minimalist KPI Metric Blocks */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {selectedModel.metadata.task_type === 'classification' ? (
               <>
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 font-medium">Weighted F1-Score</span>
-                  <div className="text-2xl font-bold text-indigo-400 font-mono mt-1">
+                <div className="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">F1 Score</span>
+                  <div className="text-3xl font-extrabold text-black font-mono mt-1">
                     {((selectedModel.metadata.metrics.f1_score || 0) * 100).toFixed(1)}%
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 font-medium">Accuracy</span>
-                  <div className="text-2xl font-bold text-emerald-400 font-mono mt-1">
+                <div className="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Accuracy</span>
+                  <div className="text-3xl font-extrabold text-black font-mono mt-1">
                     {((selectedModel.metadata.metrics.accuracy || 0) * 100).toFixed(1)}%
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 font-medium">Precision</span>
-                  <div className="text-2xl font-bold text-cyan-400 font-mono mt-1">
+                <div className="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Precision</span>
+                  <div className="text-3xl font-extrabold text-black font-mono mt-1">
                     {((selectedModel.metadata.metrics.precision || 0) * 100).toFixed(1)}%
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 font-medium">Recall</span>
-                  <div className="text-2xl font-bold text-amber-400 font-mono mt-1">
+                <div className="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Recall</span>
+                  <div className="text-3xl font-extrabold text-black font-mono mt-1">
                     {((selectedModel.metadata.metrics.recall || 0) * 100).toFixed(1)}%
                   </div>
                 </div>
               </>
             ) : (
               <>
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 font-medium">R² Determination Score</span>
-                  <div className="text-2xl font-bold text-indigo-400 font-mono mt-1">
+                <div className="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">R² Score</span>
+                  <div className="text-3xl font-extrabold text-black font-mono mt-1">
                     {selectedModel.metadata.metrics.r2_score?.toFixed(3)}
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 font-medium">Mean Absolute Error (MAE)</span>
-                  <div className="text-2xl font-bold text-emerald-400 font-mono mt-1">
+                <div className="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">MAE</span>
+                  <div className="text-3xl font-extrabold text-black font-mono mt-1">
                     {selectedModel.metadata.metrics.mae?.toLocaleString()}
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 font-medium">Root Mean Sq. Error (RMSE)</span>
-                  <div className="text-2xl font-bold text-cyan-400 font-mono mt-1">
+                <div className="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">RMSE</span>
+                  <div className="text-3xl font-extrabold text-black font-mono mt-1">
                     {selectedModel.metadata.metrics.rmse?.toLocaleString()}
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 font-medium">Features Considered</span>
-                  <div className="text-2xl font-bold text-amber-400 font-mono mt-1">
+                <div className="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Features</span>
+                  <div className="text-3xl font-extrabold text-black font-mono mt-1">
                     {selectedModel.metadata.features.length}
                   </div>
                 </div>
@@ -456,53 +446,40 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
             )}
           </div>
 
-          {/* Candidate Leaderboard & Feature Importances */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Algorithm Leaderboard */}
-            <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-4">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-                <Trophy className="w-3.5 h-3.5 text-amber-400" />
-                Algorithm Leaderboard & Benchmarks
+          {/* Leaderboard & Feature Importances */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="rounded-xl border border-zinc-200 bg-white p-6">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400 mb-4 flex items-center gap-1.5">
+                <Trophy className="w-3.5 h-3.5 text-black" />
+                Algorithm Benchmarks
               </h4>
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="text-slate-500 border-b border-slate-800 pb-2">
+                <table className="w-full text-left text-xs font-mono">
+                  <thead className="text-zinc-400 border-b border-zinc-100 pb-2">
                     <tr>
-                      <th className="py-2 px-2">Algorithm</th>
-                      <th className="py-2 px-2">
-                        {selectedModel.metadata.task_type === 'classification' ? 'F1-Score' : 'R² Score'}
-                      </th>
-                      <th className="py-2 px-2">
-                        {selectedModel.metadata.task_type === 'classification' ? 'Accuracy' : 'MAE'}
-                      </th>
-                      <th className="py-2 px-2">Status</th>
+                      <th className="py-2">Algorithm</th>
+                      <th className="py-2">Primary</th>
+                      <th className="py-2">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60">
-                    {selectedModel.candidate_models.map((cand, idx) => {
+                  <tbody className="divide-y divide-zinc-100 text-xs">
+                    {selectedModel.candidate_models.map((cand) => {
                       const isWinner = cand.algorithm === selectedModel.metadata.algorithm;
                       return (
-                        <tr key={cand.algorithm} className={isWinner ? 'bg-indigo-500/10' : ''}>
-                          <td className="py-2.5 px-2 font-medium text-slate-200">
-                            {cand.algorithm}
-                          </td>
-                          <td className="py-2.5 px-2 font-mono font-semibold text-indigo-300">
+                        <tr key={cand.algorithm} className={isWinner ? 'bg-zinc-50 font-bold' : ''}>
+                          <td className="py-2.5 text-zinc-900">{cand.algorithm}</td>
+                          <td className="py-2.5 text-black">
                             {cand.f1_score !== undefined
                               ? `${(cand.f1_score * 100).toFixed(1)}%`
                               : cand.r2_score?.toFixed(3)}
                           </td>
-                          <td className="py-2.5 px-2 font-mono text-slate-300">
-                            {cand.accuracy !== undefined
-                              ? `${(cand.accuracy * 100).toFixed(1)}%`
-                              : cand.mae?.toLocaleString()}
-                          </td>
-                          <td className="py-2.5 px-2">
+                          <td className="py-2.5">
                             {isWinner ? (
-                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
-                                Best Model
+                              <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-black text-white font-bold">
+                                Winner
                               </span>
                             ) : (
-                              <span className="text-slate-600 text-[10px]">Baseline #{idx + 1}</span>
+                              <span className="text-zinc-400 text-[10px]">Baseline</span>
                             )}
                           </td>
                         </tr>
@@ -513,80 +490,30 @@ export const ModelTrainer: React.FC<ModelTrainerProps> = ({
               </div>
             </div>
 
-            {/* Feature Importance Bar Chart */}
-            <div className="rounded-xl border border-slate-800 bg-slate-950/50 p-4">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-                <BarChart2 className="w-3.5 h-3.5 text-indigo-400" />
-                Key Drivers & Feature Importance
+            {/* Feature Importances Minimalist Bar Chart */}
+            <div className="rounded-xl border border-zinc-200 bg-white p-6">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400 mb-4 flex items-center gap-1.5">
+                <BarChart2 className="w-3.5 h-3.5 text-black" />
+                Feature Weights
               </h4>
-              {selectedModel.feature_importances.length === 0 ? (
-                <div className="text-xs text-slate-500 py-6 text-center">
-                  Linear / Ridge coefficients normalized.
-                </div>
-              ) : (
-                <div className="space-y-2.5 max-h-[220px] overflow-y-auto pr-2">
-                  {selectedModel.feature_importances.map((item) => (
-                    <div key={item.feature} className="space-y-1">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="font-mono text-slate-300 truncate max-w-[200px]">{item.feature}</span>
-                        <span className="font-mono text-indigo-300 font-semibold">{item.percentage}%</span>
-                      </div>
-                      <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full"
-                          style={{ width: `${Math.min(100, Math.max(5, item.percentage))}%` }}
-                        />
-                      </div>
+              <div className="space-y-3 max-h-[220px] overflow-y-auto pr-1">
+                {selectedModel.feature_importances.map((item) => (
+                  <div key={item.feature} className="space-y-1">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="text-zinc-800 truncate max-w-[200px]">{item.feature}</span>
+                      <span className="text-black font-bold">{item.percentage}%</span>
                     </div>
-                  ))}
-                </div>
-              )}
+                    <div className="w-full h-1.5 rounded-full bg-zinc-100 overflow-hidden">
+                      <div
+                        className="h-full bg-black rounded-full"
+                        style={{ width: `${Math.min(100, Math.max(4, item.percentage))}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-
-          {/* Confusion Matrix (If Classification) */}
-          {selectedModel.metadata.task_type === 'classification' &&
-            selectedModel.metadata.metrics.confusion_matrix && (
-              <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/40">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-                  Confusion Matrix Grid
-                </h4>
-                <div className="inline-block rounded-lg border border-slate-800 overflow-hidden">
-                  <table className="text-center text-xs font-mono">
-                    <thead className="bg-slate-900 text-slate-400">
-                      <tr>
-                        <th className="p-2 border-r border-slate-800">Actual \ Predicted</th>
-                        {selectedModel.classes.map((cls) => (
-                          <th key={cls} className="p-2 border-r border-slate-800">Class {cls}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedModel.metadata.metrics.confusion_matrix.map((row, rIdx) => (
-                        <tr key={rIdx} className="border-t border-slate-800">
-                          <td className="p-2 font-semibold bg-slate-900 text-slate-400 border-r border-slate-800">
-                            Class {selectedModel.classes[rIdx] || rIdx}
-                          </td>
-                          {row.map((val, cIdx) => {
-                            const isDiagonal = rIdx === cIdx;
-                            return (
-                              <td
-                                key={cIdx}
-                                className={`p-2 border-r border-slate-800 font-bold ${
-                                  isDiagonal ? 'bg-emerald-500/20 text-emerald-300' : 'text-slate-400'
-                                }`}
-                              >
-                                {val}
-                              </td>
-                            );
-                          })}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
         </div>
       )}
     </div>

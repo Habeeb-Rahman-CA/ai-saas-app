@@ -2,16 +2,15 @@ import React, { useState, useRef } from 'react';
 import { 
   UploadCloud, 
   FileSpreadsheet, 
-  CheckCircle2, 
+  ArrowRight, 
   AlertCircle, 
   Sparkles, 
-  ArrowRight, 
+  Check, 
   Hash, 
   Type, 
-  Calendar, 
   ToggleLeft,
-  ChevronRight,
-  Database
+  Calendar,
+  Layers
 } from 'lucide-react';
 import { DatasetProfile, DatasetRecord, SampleDataset } from '../types';
 
@@ -67,7 +66,7 @@ export const DatasetUpload: React.FC<DatasetUploadProps> = ({
 
   const processUpload = async (file: File) => {
     if (!file.name.endsWith('.csv')) {
-      setUploadError('Please select a valid CSV file.');
+      setUploadError('Only .csv files supported');
       return;
     }
 
@@ -115,56 +114,40 @@ export const DatasetUpload: React.FC<DatasetUploadProps> = ({
     try {
       await onLoadSample(sampleId);
     } catch (err: any) {
-      setUploadError(err.message || 'Failed to load sample dataset');
+      setUploadError(err.message || 'Failed to load sample');
     } finally {
       setLoadingSample(null);
     }
   };
 
-  const getTypeBadge = (type: string) => {
+  const getTypeIcon = (type: string) => {
     switch (type) {
       case 'numeric':
-        return (
-          <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 font-mono">
-            <Hash className="w-3 h-3" /> Numeric
-          </span>
-        );
+        return <span title="Numeric"><Hash className="w-3.5 h-3.5 text-zinc-600" /></span>;
       case 'categorical':
-        return (
-          <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 font-mono">
-            <Type className="w-3 h-3" /> Categorical
-          </span>
-        );
+        return <span title="Categorical"><Type className="w-3.5 h-3.5 text-zinc-600" /></span>;
       case 'boolean':
-        return (
-          <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">
-            <ToggleLeft className="w-3 h-3" /> Boolean
-          </span>
-        );
+        return <span title="Boolean"><ToggleLeft className="w-3.5 h-3.5 text-zinc-600" /></span>;
       default:
-        return (
-          <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded bg-slate-500/10 text-slate-400 border border-slate-500/20 font-mono">
-            <Calendar className="w-3 h-3" /> {type}
-          </span>
-        );
+        return <span title={type}><Calendar className="w-3.5 h-3.5 text-zinc-600" /></span>;
     }
   };
 
   return (
-    <div className="space-y-8">
-      {/* Upload & Demo Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Upload Dropzone */}
+    <div className="space-y-12">
+      {/* Upload Zone & Quick Samples */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Minimalist Dropzone */}
         <div className="lg:col-span-2">
           <div
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`relative rounded-2xl border-2 border-dashed p-8 text-center cursor-pointer transition-all duration-200 group ${
+            className={`h-56 rounded-2xl border border-dashed transition-all duration-200 cursor-pointer flex flex-col items-center justify-center p-8 text-center ${
               isDragging
-                ? 'border-indigo-400 bg-indigo-500/10 scale-[1.01]'
-                : 'border-slate-700/80 hover:border-indigo-500/60 bg-slate-900/40 hover:bg-slate-900/70'
+                ? 'border-black bg-zinc-50 scale-[0.99]'
+                : 'border-zinc-300 hover:border-black bg-white hover:bg-zinc-50/50'
             }`}
           >
             <input
@@ -174,107 +157,88 @@ export const DatasetUpload: React.FC<DatasetUploadProps> = ({
               accept=".csv"
               className="hidden"
             />
-            <div className="flex flex-col items-center justify-center space-y-3">
-              <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-inner">
-                {isUploading ? (
-                  <div className="w-7 h-7 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  <UploadCloud className="w-7 h-7 text-indigo-400" />
-                )}
-              </div>
-              <div className="space-y-1">
-                <p className="text-base font-semibold text-slate-200">
-                  {isUploading ? 'Analyzing and Profiling Dataset...' : 'Drop your training CSV file here'}
-                </p>
-                <p className="text-xs text-slate-400">
-                  or <span className="text-indigo-400 underline font-medium">click to browse</span> from your computer
-                </p>
-              </div>
-              <div className="flex items-center gap-2 text-[11px] text-slate-500 font-mono">
-                <span>Tabular CSV format</span>
-                <span>•</span>
-                <span>Auto-cleans missing values</span>
-                <span>•</span>
-                <span>Instant schema discovery</span>
-              </div>
+            <div className="w-12 h-12 rounded-xl bg-black text-white flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
+              {isUploading ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <UploadCloud className="w-5 h-5 stroke-[1.75]" />
+              )}
             </div>
+            <p className="text-sm font-semibold text-zinc-900 tracking-tight">
+              {isUploading ? 'Analyzing CSV...' : 'Drop CSV or click to browse'}
+            </p>
+            <p className="text-xs font-mono text-zinc-400 mt-1">
+              Tabular dataset • Auto-cleaning enabled
+            </p>
           </div>
 
           {uploadError && (
-            <div className="mt-3 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center gap-2 text-rose-300 text-sm">
+            <div className="mt-4 p-3 rounded-xl border border-red-200 bg-red-50 text-red-700 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{uploadError}</span>
             </div>
           )}
         </div>
 
-        {/* 1-Click Demo Datasets */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 flex flex-col justify-between">
+        {/* 1-Click Samples Minimal List */}
+        <div className="p-6 rounded-2xl border border-zinc-200 bg-white flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 text-indigo-400 font-semibold text-sm mb-1">
-              <Sparkles className="w-4 h-4" />
-              <span>Instant 1-Click Demos</span>
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-zinc-400 mb-4">
+              <Sparkles className="w-3.5 h-3.5 text-black" />
+              <span>Demo Datasets</span>
             </div>
-            <p className="text-xs text-slate-400 mb-4">
-              Don't have a dataset ready? Load one of our ready-to-train datasets instantly:
-            </p>
 
             <div className="space-y-3">
               {samples.map((s) => (
                 <div
                   key={s.id}
                   onClick={() => handleSampleClick(s.id)}
-                  className="p-3 rounded-xl border border-slate-800 hover:border-indigo-500/40 bg-slate-950/40 hover:bg-slate-800/40 cursor-pointer transition-all duration-200 group flex items-start justify-between"
+                  className="p-3.5 rounded-xl border border-zinc-200 hover:border-black bg-white hover:bg-zinc-50 cursor-pointer transition-all flex items-center justify-between group"
                 >
-                  <div className="space-y-1 pr-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-slate-200 group-hover:text-indigo-300">
-                        {s.name}
-                      </span>
-                      <span className={`text-[10px] px-1.5 py-0.2 rounded uppercase font-bold ${
-                        s.task_type === 'classification'
-                          ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
-                          : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                      }`}>
-                        {s.task_type}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
-                      {s.description}
-                    </p>
+                  <div>
+                    <span className="text-xs font-semibold text-zinc-900 block group-hover:underline">
+                      {s.name}
+                    </span>
+                    <span className="text-[10px] font-mono uppercase text-zinc-400 tracking-wider">
+                      {s.task_type} • target: {s.target_column}
+                    </span>
                   </div>
-                  <div className="shrink-0 mt-1">
+                  <button
+                    type="button"
+                    title={`Load ${s.name}`}
+                    className="p-2 rounded-lg bg-zinc-100 group-hover:bg-black group-hover:text-white transition-colors"
+                  >
                     {loadingSample === s.id ? (
-                      <div className="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
+                      <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
                     ) : (
-                      <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-0.5 transition-all" />
+                      <ArrowRight className="w-3.5 h-3.5" />
                     )}
-                  </div>
+                  </button>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-500 flex items-center justify-between">
-            <span>Includes pre-matched test sets for batch predictions</span>
-          </div>
+          <p className="text-[11px] font-mono text-zinc-400 pt-4 border-t border-zinc-100">
+            Instant benchmarks available
+          </p>
         </div>
       </div>
 
-      {/* Datasets Library & Active Profile */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Datasets History Sidebar */}
+      {/* Dataset Selection & Profile */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* Sidebar: Available Datasets */}
         <div className="lg:col-span-1 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Database className="w-3.5 h-3.5" />
-              Datasets Library ({datasets.length})
+            <h3 className="text-xs font-mono uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+              <Layers className="w-3.5 h-3.5 text-black" />
+              Datasets ({datasets.length})
             </h3>
           </div>
 
           {datasets.length === 0 ? (
-            <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/30 text-center text-xs text-slate-500">
-              No datasets loaded yet. Upload a CSV or select a demo sample.
+            <div className="p-6 rounded-2xl border border-dashed border-zinc-200 text-center text-xs font-mono text-zinc-400">
+              No datasets loaded
             </div>
           ) : (
             <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
@@ -284,20 +248,18 @@ export const DatasetUpload: React.FC<DatasetUploadProps> = ({
                   <div
                     key={d.id}
                     onClick={() => onSelectDataset(d)}
-                    className={`p-3 rounded-xl border cursor-pointer transition-all ${
+                    className={`p-3.5 rounded-xl border cursor-pointer transition-all ${
                       isSelected
-                        ? 'border-indigo-500 bg-indigo-500/10 text-white shadow-sm'
-                        : 'border-slate-800/80 bg-slate-900/30 hover:bg-slate-800/40 text-slate-300'
+                        ? 'border-black bg-black text-white shadow-sm'
+                        : 'border-zinc-200 bg-white hover:border-zinc-400 text-zinc-700'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-semibold truncate max-w-[170px]">{d.name}</span>
-                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 shrink-0" />}
+                      <span className="text-xs font-semibold truncate max-w-[150px]">{d.name}</span>
+                      {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
                     </div>
-                    <div className="text-[11px] text-slate-400 flex items-center gap-2">
-                      <span>{d.row_count.toLocaleString()} rows</span>
-                      <span>•</span>
-                      <span>{d.col_count} columns</span>
+                    <div className={`text-[10px] font-mono ${isSelected ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                      {d.row_count.toLocaleString()} rows • {d.col_count} cols
                     </div>
                   </div>
                 );
@@ -306,79 +268,77 @@ export const DatasetUpload: React.FC<DatasetUploadProps> = ({
           )}
         </div>
 
-        {/* Selected Dataset Deep Profile */}
+        {/* Selected Dataset Detail Profile */}
         <div className="lg:col-span-3">
           {selectedDataset && selectedProfile ? (
-            <div className="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
-              {/* Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+            <div className="space-y-8 rounded-2xl border border-zinc-200 bg-white p-8">
+              {/* Header with Icon-Only Train Button */}
+              <div className="flex items-center justify-between pb-6 border-b border-zinc-100">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <FileSpreadsheet className="w-5 h-5 text-indigo-400" />
-                    <h2 className="text-lg font-bold text-white">{selectedDataset.name}</h2>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Filename: <span className="font-mono text-slate-300">{selectedDataset.original_filename}</span> •{' '}
-                    {selectedProfile.total_rows.toLocaleString()} records •{' '}
-                    {selectedProfile.total_columns} features profiled
+                  <h2 className="text-xl font-bold tracking-tight text-black">{selectedDataset.name}</h2>
+                  <p className="text-xs font-mono text-zinc-400 mt-1">
+                    {selectedDataset.original_filename} • {selectedProfile.total_rows.toLocaleString()} rows • {selectedProfile.total_columns} columns
                   </p>
                 </div>
 
                 <button
                   onClick={() => {
-                    // Pick high recommendation target if exists
                     const rec = selectedProfile.columns.find((c) => c.target_recommendation);
                     onProceedToTrain(selectedDataset, rec?.name);
                   }}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-medium text-sm shadow-md shadow-indigo-500/20 transition-all cursor-pointer"
+                  title="Proceed to Model Training"
+                  className="p-3 rounded-xl bg-black text-white hover:bg-zinc-800 transition-all cursor-pointer shadow-sm flex items-center gap-2 group"
                 >
-                  <span>Train Model with This Dataset</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span className="text-xs font-semibold hidden sm:inline">Train</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                 </button>
               </div>
 
-              {/* Column Schema Table */}
+              {/* Columns profiling */}
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-                  Column Profiling & Target Recommendations
+                <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400 mb-3">
+                  Column Schema & Target Inference
                 </h4>
-                <div className="overflow-x-auto rounded-xl border border-slate-800">
+                <div className="overflow-x-auto rounded-xl border border-zinc-200">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-950/80 text-slate-400 border-b border-slate-800 font-medium">
+                    <thead className="bg-zinc-50 text-zinc-500 border-b border-zinc-200 font-medium">
                       <tr>
-                        <th className="py-2.5 px-3">Column Name</th>
-                        <th className="py-2.5 px-3">Data Type</th>
-                        <th className="py-2.5 px-3">Distinct Values</th>
+                        <th className="py-2.5 px-3">Column</th>
+                        <th className="py-2.5 px-3">Type</th>
+                        <th className="py-2.5 px-3 font-mono">Unique</th>
                         <th className="py-2.5 px-3">Missing</th>
                         <th className="py-2.5 px-3">Sample Values</th>
-                        <th className="py-2.5 px-3">AutoML Role</th>
+                        <th className="py-2.5 px-3">Role</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800/60 bg-slate-900/20">
+                    <tbody className="divide-y divide-zinc-100 font-mono text-[11px]">
                       {selectedProfile.columns.map((col) => (
-                        <tr key={col.name} className="hover:bg-slate-800/30 transition-colors">
-                          <td className="py-2.5 px-3 font-medium text-slate-200 font-mono">
+                        <tr key={col.name} className="hover:bg-zinc-50/70 transition-colors">
+                          <td className="py-2.5 px-3 font-semibold text-black">
                             {col.name}
                           </td>
-                          <td className="py-2.5 px-3">{getTypeBadge(col.type)}</td>
-                          <td className="py-2.5 px-3 font-mono text-slate-300">
-                            {col.unique_count.toLocaleString()}
-                          </td>
                           <td className="py-2.5 px-3">
-                            <span className={col.missing_count > 0 ? 'text-amber-400 font-semibold' : 'text-slate-500'}>
-                              {col.missing_pct}% ({col.missing_count})
+                            <span className="inline-flex items-center gap-1.5 text-zinc-700">
+                              {getTypeIcon(col.type)}
+                              <span>{col.type}</span>
                             </span>
                           </td>
-                          <td className="py-2.5 px-3 text-slate-400 font-mono text-[11px] truncate max-w-[220px]">
+                          <td className="py-2.5 px-3 text-zinc-600">
+                            {col.unique_count.toLocaleString()}
+                          </td>
+                          <td className="py-2.5 px-3 text-zinc-600">
+                            {col.missing_pct}%
+                          </td>
+                          <td className="py-2.5 px-3 text-zinc-500 truncate max-w-[200px]">
                             {col.sample_values.join(', ') || '—'}
                           </td>
                           <td className="py-2.5 px-3">
                             {col.target_recommendation ? (
-                              <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-medium">
-                                ★ Suggested Target ({col.target_recommendation})
+                              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black text-white font-bold">
+                                Target ({col.target_recommendation})
                               </span>
                             ) : (
-                              <span className="text-slate-500 text-[11px]">Feature</span>
+                              <span className="text-zinc-400 font-sans text-xs">Feature</span>
                             )}
                           </td>
                         </tr>
@@ -388,30 +348,30 @@ export const DatasetUpload: React.FC<DatasetUploadProps> = ({
                 </div>
               </div>
 
-              {/* Data Preview Table */}
+              {/* Data Preview */}
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-                  Data Preview (First 10 Rows)
+                <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400 mb-3">
+                  Sample Records
                 </h4>
-                <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-900/80 text-slate-400 border-b border-slate-800">
+                <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white">
+                  <table className="w-full text-left text-[11px] font-mono">
+                    <thead className="bg-zinc-50 text-zinc-500 border-b border-zinc-200">
                       <tr>
                         {selectedProfile.columns.map((col) => (
-                          <th key={col.name} className="py-2 px-3 font-mono whitespace-nowrap">
+                          <th key={col.name} className="py-2 px-3 whitespace-nowrap">
                             {col.name}
                           </th>
                         ))}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800/40">
+                    <tbody className="divide-y divide-zinc-100 text-zinc-700">
                       {selectedProfile.preview.map((row, idx) => (
-                        <tr key={idx} className="hover:bg-slate-800/30 font-mono text-[11px]">
+                        <tr key={idx} className="hover:bg-zinc-50/70">
                           {selectedProfile.columns.map((col) => (
-                            <td key={col.name} className="py-2 px-3 whitespace-nowrap text-slate-300">
+                            <td key={col.name} className="py-2 px-3 whitespace-nowrap">
                               {row[col.name] !== null && row[col.name] !== undefined
                                 ? String(row[col.name])
-                                : <span className="text-slate-600 italic">null</span>}
+                                : <span className="text-zinc-300">null</span>}
                             </td>
                           ))}
                         </tr>
@@ -422,12 +382,9 @@ export const DatasetUpload: React.FC<DatasetUploadProps> = ({
               </div>
             </div>
           ) : (
-            <div className="h-[460px] rounded-2xl border border-dashed border-slate-800 bg-slate-900/20 flex flex-col items-center justify-center text-center p-6 text-slate-500">
-              <FileSpreadsheet className="w-12 h-12 text-slate-700 mb-3" />
-              <p className="text-sm font-medium text-slate-400">No Dataset Selected</p>
-              <p className="text-xs text-slate-600 max-w-sm mt-1">
-                Upload a CSV above or click one of the demo datasets to view column profiles, statistics, and sample rows.
-              </p>
+            <div className="h-96 rounded-2xl border border-dashed border-zinc-200 flex flex-col items-center justify-center text-center p-8 text-zinc-400">
+              <FileSpreadsheet className="w-10 h-10 text-zinc-300 mb-3 stroke-[1.5]" />
+              <p className="text-xs font-mono text-zinc-500">Select or upload a dataset to preview profile</p>
             </div>
           )}
         </div>

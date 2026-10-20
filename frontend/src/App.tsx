@@ -28,7 +28,6 @@ export function App() {
   const [trainingTargetHint, setTrainingTargetHint] = useState<string | undefined>(undefined);
 
   const [predictions, setPredictions] = useState<PredictionSummary[]>([]);
-  const [, setIsLoadingInitial] = useState<boolean>(true);
 
   // Initial load
   useEffect(() => {
@@ -68,8 +67,6 @@ export function App() {
         }
       } catch (err) {
         console.error('Failed to load initial data:', err);
-      } finally {
-        setIsLoadingInitial(false);
       }
     }
 
@@ -139,7 +136,6 @@ export function App() {
   };
 
   const handlePredictionComplete = (_result: BatchPredictionResult) => {
-    // Refresh predictions history
     fetch('/api/predictions')
       .then((r) => r.json())
       .then((data) => setPredictions(data))
@@ -147,7 +143,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col bg-[#fafafa] text-zinc-900">
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -156,31 +152,8 @@ export function App() {
         predictionCount={predictions.length}
       />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Quick Workflow Stepper */}
-        <div className="mb-8 p-3 rounded-2xl bg-slate-900/40 border border-slate-800/80 flex items-center justify-between overflow-x-auto text-xs">
-          <div className="flex items-center space-x-2 shrink-0">
-            <span className="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center border border-indigo-500/30">1</span>
-            <span className="font-semibold text-slate-300">Upload Dataset</span>
-            <span className="text-slate-600">→</span>
-          </div>
-          <div className="flex items-center space-x-2 shrink-0">
-            <span className="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center border border-indigo-500/30">2</span>
-            <span className="font-semibold text-slate-300">AutoML Train & Tune</span>
-            <span className="text-slate-600">→</span>
-          </div>
-          <div className="flex items-center space-x-2 shrink-0">
-            <span className="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center border border-emerald-500/30">3</span>
-            <span className="font-semibold text-slate-300">Batch CSV Predictions</span>
-            <span className="text-slate-600">→</span>
-          </div>
-          <div className="flex items-center space-x-2 shrink-0">
-            <span className="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center border border-purple-500/30">4</span>
-            <span className="font-semibold text-slate-300">Interactive Simulation & Export</span>
-          </div>
-        </div>
-
-        {/* Tab Content */}
+      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-12">
+        {/* Minimalist Tab Content */}
         {activeTab === 'datasets' && (
           <DatasetUpload
             datasets={datasets}
@@ -238,21 +211,19 @@ export function App() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800 bg-slate-950 py-6 mt-12 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Minimalist Clean Footer with ample blank space */}
+      <footer className="border-t border-zinc-200/80 bg-white py-12 mt-20 text-xs font-mono text-zinc-400">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-slate-400 font-medium">Predictr AI Engine Operational</span>
-            <span>•</span>
-            <span>FastAPI + Scikit-Learn + React</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-black"></span>
+            <span className="text-zinc-600 font-medium">PREDICTR AUTOMATION ENGINE</span>
           </div>
-          <div className="flex items-center gap-4 text-slate-400">
-            <span>Automated Preprocessing</span>
+          <div className="flex items-center gap-6">
+            <span>FASTAPI</span>
             <span>•</span>
-            <span>Ensemble Benchmarks</span>
+            <span>SCIKIT-LEARN</span>
             <span>•</span>
-            <span>Instant Inference</span>
+            <span>REACT 19</span>
           </div>
         </div>
       </footer>

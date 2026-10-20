@@ -8,72 +8,72 @@ interface PredictionsHistoryProps {
 
 export const PredictionsHistory: React.FC<PredictionsHistoryProps> = ({ predictions }) => {
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between pb-6 border-b border-zinc-100">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <History className="w-5 h-5 text-indigo-400" />
-            Inference History & Export Archive
+          <h2 className="text-xl font-bold tracking-tight text-black flex items-center gap-2">
+            <History className="w-5 h-5 text-black stroke-[1.75]" />
+            Inference History
           </h2>
-          <p className="text-xs text-slate-400 mt-1">
-            Access, view summary metrics, and re-download generated predictions from previous batch scoring jobs.
+          <p className="text-xs font-mono text-zinc-400 mt-1">
+            Archived batch runs • Direct CSV exports
           </p>
         </div>
-        <span className="text-xs text-slate-400 font-mono">
-          {predictions.length} Total Jobs
+        <span className="text-xs font-mono text-zinc-500">
+          {predictions.length} Total Runs
         </span>
       </div>
 
       {predictions.length === 0 ? (
-        <div className="p-12 rounded-2xl border border-dashed border-slate-800 bg-slate-900/20 text-center text-xs text-slate-500">
-          <FileSpreadsheet className="w-10 h-10 text-slate-700 mx-auto mb-3" />
-          <p className="text-sm font-medium text-slate-400">No predictions generated yet</p>
-          <p className="text-xs text-slate-600 mt-1">
-            Train a model and run batch CSV inference in Step 3 to view prediction history here.
+        <div className="p-16 rounded-2xl border border-dashed border-zinc-200 text-center text-xs font-mono text-zinc-400">
+          <FileSpreadsheet className="w-10 h-10 text-zinc-300 mx-auto mb-3 stroke-[1.5]" />
+          <p className="text-sm font-semibold text-zinc-800">No predictions recorded</p>
+          <p className="text-xs text-zinc-400 mt-1">
+            Execute batch scoring to build history
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/40">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-950/80 text-slate-400 border-b border-slate-800 font-medium">
+        <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
+          <table className="w-full text-left text-xs font-mono">
+            <thead className="bg-zinc-50 text-zinc-500 border-b border-zinc-200 font-medium">
               <tr>
-                <th className="py-3 px-4">Timestamp</th>
-                <th className="py-3 px-4">Dataset Filename</th>
-                <th className="py-3 px-4">Model Applied</th>
-                <th className="py-3 px-4">Target Predicted</th>
-                <th className="py-3 px-4">Rows Scored</th>
-                <th className="py-3 px-4 text-right">Actions</th>
+                <th className="py-3 px-4">Date</th>
+                <th className="py-3 px-4">Dataset</th>
+                <th className="py-3 px-4">Model</th>
+                <th className="py-3 px-4">Target</th>
+                <th className="py-3 px-4">Rows</th>
+                <th className="py-3 px-4 text-right">Export</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 font-mono text-[11px]">
+            <tbody className="divide-y divide-zinc-100 text-[11px]">
               {predictions.map((p) => {
-                const dateStr = new Date(p.created_at).toLocaleString();
+                const dateStr = new Date(p.created_at).toLocaleDateString();
                 return (
-                  <tr key={p.id} className="hover:bg-slate-800/30 transition-colors">
-                    <td className="py-3 px-4 text-slate-400 flex items-center gap-2">
-                      <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                  <tr key={p.id} className="hover:bg-zinc-50/70 transition-colors">
+                    <td className="py-3 px-4 text-zinc-500 flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-zinc-400" />
                       <span>{dateStr}</span>
                     </td>
-                    <td className="py-3 px-4 font-semibold text-slate-200">
+                    <td className="py-3 px-4 font-semibold text-black">
                       {p.original_filename}
                     </td>
-                    <td className="py-3 px-4 text-indigo-300 font-sans font-medium">
+                    <td className="py-3 px-4 text-zinc-800">
                       {p.model_name}
                     </td>
-                    <td className="py-3 px-4 text-slate-300">
+                    <td className="py-3 px-4 text-zinc-600">
                       predicted_{p.target_column}
                     </td>
-                    <td className="py-3 px-4 text-slate-200 font-semibold">
+                    <td className="py-3 px-4 text-black font-semibold">
                       {p.row_count.toLocaleString()}
                     </td>
                     <td className="py-3 px-4 text-right">
                       <a
                         href={`/api/predictions/${p.id}/download`}
                         download
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 font-sans text-xs font-medium transition-all"
+                        title="Download Predictions CSV"
+                        className="inline-flex p-2 rounded-lg border border-zinc-200 hover:border-black bg-white hover:bg-zinc-50 text-black transition-colors"
                       >
-                        <Download className="w-3 h-3" />
-                        <span>Download CSV</span>
+                        <Download className="w-3.5 h-3.5" />
                       </a>
                     </td>
                   </tr>

@@ -2,11 +2,11 @@ import React, { useState, useRef } from 'react';
 import { 
   UploadCloud, 
   Download, 
-  CheckCircle2, 
+  Check, 
   Wand2, 
   Search, 
   AlertCircle,
-  Info
+  FileDown
 } from 'lucide-react';
 import { ModelSummary, BatchPredictionResult } from '../types';
 
@@ -33,12 +33,12 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
 
   const handleFileUpload = async (file: File) => {
     if (!activeModel) {
-      setErrorMsg('Please select a trained model first.');
+      setErrorMsg('Please select a trained model');
       return;
     }
 
     if (!file.name.endsWith('.csv')) {
-      setErrorMsg('Only CSV files can be processed.');
+      setErrorMsg('Only .csv files supported');
       return;
     }
 
@@ -57,14 +57,14 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.detail || 'Prediction failed');
+        throw new Error(err.detail || 'Inference failed');
       }
 
       const result: BatchPredictionResult = await res.json();
       setPredictionResult(result);
       onPredictionComplete(result);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Failed to generate predictions');
+      setErrorMsg(err.message || 'Failed to score dataset');
     } finally {
       setIsPredicting(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
@@ -80,53 +80,49 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
     : [];
 
   return (
-    <div className="space-y-8">
-      {/* Configuration & Input Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Model Selection & Download Template */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 flex flex-col justify-between">
-          <div className="space-y-4">
+    <div className="space-y-12">
+      {/* Configuration & Dropzone */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Model Selection & Sample CSVs */}
+        <div className="p-8 rounded-2xl border border-zinc-200 bg-white flex flex-col justify-between">
+          <div className="space-y-6">
             <div>
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <Wand2 className="w-4 h-4 text-indigo-400" />
-                Select Prediction Model
+              <h3 className="text-sm font-bold tracking-tight text-black flex items-center gap-2">
+                <Wand2 className="w-4 h-4 text-black stroke-[1.75]" />
+                Inference Model
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
-                Choose the trained algorithm to generate inferences on your unlabelled CSV.
+              <p className="text-xs font-mono text-zinc-400 mt-1">
+                Select algorithm for scoring
               </p>
             </div>
 
             {models.length === 0 ? (
-              <div className="p-4 rounded-xl border border-slate-800 bg-slate-950 text-xs text-amber-400/90">
-                No models trained yet. Please train a model in Step 2 first.
+              <div className="p-4 rounded-xl border border-zinc-200 bg-zinc-50 text-xs font-mono text-zinc-500">
+                No models trained yet
               </div>
             ) : (
               <div className="space-y-3">
                 <select
                   value={activeModel?.id || ''}
                   onChange={(e) => onSelectModel(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 font-medium"
+                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-black font-medium"
                 >
                   {models.map((m) => (
                     <option key={m.id} value={m.id}>
-                      {m.name} ({m.algorithm} • {m.task_type})
+                      {m.name} ({m.algorithm})
                     </option>
                   ))}
                 </select>
 
                 {activeModel && (
-                  <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2 text-xs">
+                  <div className="p-4 rounded-xl border border-zinc-100 bg-zinc-50/50 space-y-2 text-xs font-mono">
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Target Feature:</span>
-                      <span className="font-mono text-indigo-300 font-semibold">{activeModel.target_column}</span>
+                      <span className="text-zinc-400">Target:</span>
+                      <span className="font-bold text-black">{activeModel.target_column}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Winning Algorithm:</span>
-                      <span className="text-slate-200">{activeModel.algorithm}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Required Features:</span>
-                      <span className="font-mono text-slate-400">{activeModel.features.length} inputs</span>
+                      <span className="text-zinc-400">Features:</span>
+                      <span className="text-zinc-700">{activeModel.features.length} required</span>
                     </div>
                   </div>
                 )}
@@ -134,25 +130,29 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
             )}
           </div>
 
-          {/* Download Sample Test CSV button */}
-          <div className="mt-6 pt-4 border-t border-slate-800 space-y-2">
-            <span className="text-xs text-slate-400 font-medium block">Need a test dataset to try?</span>
-            <div className="flex flex-col gap-2">
+          {/* Quick Test CSV download triggers */}
+          <div className="pt-6 border-t border-zinc-100 space-y-3">
+            <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 block">
+              Download Test Templates
+            </span>
+            <div className="flex items-center gap-3">
               <a
                 href="/api/samples/download-test/customer_churn"
                 download
-                className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-all"
+                title="Download Churn Test CSV"
+                className="p-3 rounded-xl border border-zinc-200 hover:border-black bg-white hover:bg-zinc-50 text-zinc-700 hover:text-black transition-all flex items-center justify-center flex-1 group"
               >
-                <Download className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Download Sample Churn Test CSV</span>
+                <FileDown className="w-4 h-4 mr-2" />
+                <span className="text-xs font-mono font-medium">Churn CSV</span>
               </a>
               <a
                 href="/api/samples/download-test/housing_prices"
                 download
-                className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-all"
+                title="Download Housing Test CSV"
+                className="p-3 rounded-xl border border-zinc-200 hover:border-black bg-white hover:bg-zinc-50 text-zinc-700 hover:text-black transition-all flex items-center justify-center flex-1 group"
               >
-                <Download className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Download Sample Housing Test CSV</span>
+                <FileDown className="w-4 h-4 mr-2" />
+                <span className="text-xs font-mono font-medium">Housing CSV</span>
               </a>
             </div>
           </div>
@@ -162,10 +162,10 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
         <div className="lg:col-span-2">
           <div
             onClick={() => fileInputRef.current?.click()}
-            className={`h-full min-h-[260px] rounded-2xl border-2 border-dashed p-8 text-center cursor-pointer transition-all duration-200 group flex flex-col items-center justify-center ${
+            className={`h-full min-h-[260px] rounded-2xl border border-dashed p-8 text-center cursor-pointer transition-all duration-200 flex flex-col items-center justify-center ${
               isPredicting
-                ? 'border-indigo-400 bg-indigo-500/10'
-                : 'border-slate-700/80 hover:border-indigo-500/60 bg-slate-900/40 hover:bg-slate-900/70'
+                ? 'border-black bg-zinc-50 scale-[0.99]'
+                : 'border-zinc-300 hover:border-black bg-white hover:bg-zinc-50/50'
             }`}
           >
             <input
@@ -175,26 +175,23 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
               accept=".csv"
               className="hidden"
             />
-            <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 mb-4">
+            <div className="w-14 h-14 rounded-xl bg-black text-white flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
               {isPredicting ? (
-                <div className="w-8 h-8 border-3 border-indigo-400 border-t-transparent rounded-full animate-spin" />
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
-                <UploadCloud className="w-8 h-8 text-indigo-400" />
+                <UploadCloud className="w-6 h-6 stroke-[1.75]" />
               )}
             </div>
-            <p className="text-base font-semibold text-slate-200">
-              {isPredicting ? 'Executing Pipeline & Predicting Rows...' : 'Upload Unlabelled CSV for Batch Inference'}
+            <p className="text-sm font-semibold text-black tracking-tight">
+              {isPredicting ? 'Executing Predictions...' : 'Upload Unlabelled CSV for Scoring'}
             </p>
-            <p className="text-xs text-slate-400 mt-1">
-              or <span className="text-indigo-400 underline font-medium">browse from your computer</span>
-            </p>
-            <p className="text-[11px] text-slate-500 font-mono mt-3">
-              Accepts any CSV with the model's required feature columns • Auto-imputes missing columns
+            <p className="text-xs font-mono text-zinc-400 mt-1">
+              Supports any CSV matching trained feature schema
             </p>
           </div>
 
           {errorMsg && (
-            <div className="mt-3 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center gap-2 text-rose-300 text-xs">
+            <div className="mt-4 p-3 rounded-xl border border-red-200 bg-red-50 text-red-700 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{errorMsg}</span>
             </div>
@@ -202,53 +199,44 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
         </div>
       </div>
 
-      {/* Predictions Output Section */}
+      {/* Output Table & Download Trigger */}
       {predictionResult && (
-        <div className="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
-          {/* Header & Download Button */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div className="space-y-8 rounded-2xl border border-zinc-200 bg-white p-8">
+          {/* Header with Icon-Only Download Trigger */}
+          <div className="flex items-center justify-between pb-6 border-b border-zinc-100">
             <div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                <h3 className="text-lg font-bold text-white">Batch Predictions Generated</h3>
+                <Check className="w-5 h-5 text-black stroke-[2.5]" />
+                <h3 className="text-xl font-bold tracking-tight text-black">Predictions Ready</h3>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Successfully scored <span className="font-semibold text-white">{predictionResult.total_rows.toLocaleString()} rows</span> • Target column: <span className="font-mono text-indigo-300">{predictionResult.target_column}</span>
+              <p className="text-xs font-mono text-zinc-400 mt-1">
+                Scored {predictionResult.total_rows.toLocaleString()} records • Target: {predictionResult.target_column}
               </p>
             </div>
 
             <a
               href={`/api/predictions/${predictionResult.prediction_id}/download`}
               download
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-semibold text-xs shadow-lg shadow-emerald-500/20 transition-all cursor-pointer"
+              title="Download Predictions CSV"
+              className="p-3.5 px-6 rounded-xl bg-black text-white hover:bg-zinc-800 transition-all cursor-pointer shadow-sm flex items-center gap-2 group"
             >
-              <Download className="w-4 h-4" />
-              <span>Download Enriched Predictions CSV</span>
+              <Download className="w-4 h-4 stroke-[2]" />
+              <span className="text-xs font-semibold tracking-tight">Export CSV</span>
             </a>
           </div>
 
-          {/* Missing column notice if any */}
-          {predictionResult.missing_features_imputed.length > 0 && (
-            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2">
-              <Info className="w-4 h-4 shrink-0" />
-              <span>
-                Note: Some feature columns were missing in the test CSV and were automatically imputed: {predictionResult.missing_features_imputed.join(', ')}
-              </span>
-            </div>
-          )}
-
-          {/* Distribution KPI Cards */}
+          {/* KPI Distribution Summary */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-              Predictions Distribution Summary
+            <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400 mb-3">
+              Distribution Metrics
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {Object.entries(predictionResult.distribution).map(([key, val]) => (
-                <div key={key} className="p-4 rounded-xl bg-slate-950/70 border border-slate-800">
-                  <span className="text-[11px] text-slate-400 uppercase font-medium">
+                <div key={key} className="p-4 rounded-xl border border-zinc-200 bg-zinc-50/50">
+                  <span className="text-[10px] font-mono uppercase text-zinc-400">
                     {key.replace('_', ' ')}
                   </span>
-                  <div className="text-xl font-bold text-indigo-300 font-mono mt-1">
+                  <div className="text-2xl font-bold text-black font-mono mt-1">
                     {typeof val === 'number' ? val.toLocaleString() : String(val)}
                   </div>
                 </div>
@@ -257,26 +245,26 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
           </div>
 
           {/* Preview Table */}
-          <div className="space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                Predictions Preview (First 25 Rows)
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400">
+                Data Preview (First 25 Rows)
               </h4>
-              <div className="relative w-full sm:w-64">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+              <div className="relative w-64">
+                <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-2.5" />
                 <input
                   type="text"
                   placeholder="Filter rows..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 font-mono"
+                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl pl-9 pr-3 py-1.5 text-xs text-zinc-900 focus:outline-none focus:border-black font-mono"
                 />
               </div>
             </div>
 
-            <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/70">
-              <table className="w-full text-left text-xs font-mono">
-                <thead className="bg-slate-900 text-slate-400 border-b border-slate-800">
+            <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white">
+              <table className="w-full text-left text-[11px] font-mono">
+                <thead className="bg-zinc-50 text-zinc-500 border-b border-zinc-200">
                   <tr>
                     {predictionResult.preview.length > 0 &&
                       Object.keys(predictionResult.preview[0]).map((col) => {
@@ -287,21 +275,21 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
                             key={col}
                             className={`py-2.5 px-3 whitespace-nowrap ${
                               isPred
-                                ? 'bg-indigo-600/20 text-indigo-300 font-bold'
+                                ? 'bg-zinc-900 text-white font-bold'
                                 : isConf
-                                ? 'bg-emerald-600/20 text-emerald-300 font-bold'
+                                ? 'bg-zinc-200 text-black font-bold'
                                 : ''
                             }`}
                           >
-                            {col} {isPred ? '★' : ''}
+                            {col}
                           </th>
                         );
                       })}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/40 text-[11px]">
+                <tbody className="divide-y divide-zinc-100 text-zinc-700">
                   {filteredPreview.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-slate-800/30">
+                    <tr key={idx} className="hover:bg-zinc-50/70">
                       {Object.entries(row).map(([col, val]) => {
                         const isPred = col === predictionResult.prediction_column;
                         const isConf = col === 'confidence_pct';
@@ -310,14 +298,14 @@ export const BatchPredictor: React.FC<BatchPredictorProps> = ({
                             key={col}
                             className={`py-2 px-3 whitespace-nowrap ${
                               isPred
-                                ? 'bg-indigo-500/10 text-indigo-300 font-bold font-mono'
+                                ? 'bg-zinc-50 text-black font-bold'
                                 : isConf
-                                ? 'bg-emerald-500/10 text-emerald-300 font-bold'
-                                : 'text-slate-300'
+                                ? 'text-black font-bold'
+                                : ''
                             }`}
                           >
                             {isConf && typeof val === 'number' ? (
-                              <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400">
+                              <span className="px-1.5 py-0.5 rounded bg-zinc-100 text-black font-mono">
                                 {val}%
                               </span>
                             ) : val !== null && val !== undefined ? (
