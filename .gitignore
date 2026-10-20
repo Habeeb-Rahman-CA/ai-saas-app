@@ -1,0 +1,18 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.joblib
+*.db
+
+# Node
+node_modules/
+dist/
+
+# Logs & temp data
+*.log
+data/datasets/*.csv
+data/models/*.joblib
+data/predictions/*.csv
+

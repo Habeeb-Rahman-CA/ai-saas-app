@@ -1,0 +1,321 @@
+customer_id,tenure_months,monthly_charges,total_charges,contract,internet_service,tech_support,paperless_billing,churn
+CUST-1000,52,63.53,3351.54,Month-to-month,Fiber optic,No,No,0
+CUST-1001,15,71.83,1108.68,One year,DSL,Yes,Yes,0
+CUST-1002,61,109.44,6700.44,Month-to-month,Fiber optic,No,Yes,0
+CUST-1003,21,56.68,1221.38,One year,No,No,Yes,0
+CUST-1004,24,111.31,2699.77,One year,No,No,Yes,1
+CUST-1005,3,106.01,357.17,Two year,DSL,Yes,Yes,0
+CUST-1006,22,38.6,866.92,Month-to-month,Fiber optic,No,Yes,1
+CUST-1007,53,26.59,1430.12,Two year,Fiber optic,No,Yes,0
+CUST-1008,2,29.57,104.38,Month-to-month,DSL,No,Yes,1
+CUST-1009,30,21.73,699.52,Two year,No,Yes,No,0
+CUST-1010,38,28.97,1146.1,Month-to-month,DSL,No,Yes,0
+CUST-1011,2,84.89,193.65,Month-to-month,Fiber optic,No,Yes,1
+CUST-1012,64,26.76,1752.94,One year,DSL,Yes,Yes,0
+CUST-1013,60,50.3,3044.6,Month-to-month,DSL,Yes,No,0
+CUST-1014,21,100.26,2132.92,Month-to-month,DSL,Yes,Yes,1
+CUST-1015,33,22.21,747.17,One year,Fiber optic,No,Yes,0
+CUST-1016,58,97.37,5679.32,One year,DSL,No,No,0
+CUST-1017,22,46.78,1042.45,One year,DSL,No,No,0
+CUST-1018,49,31.23,1549.98,One year,No,Yes,Yes,0
+CUST-1019,59,86.19,5128.69,Month-to-month,Fiber optic,No,No,1
+CUST-1020,42,79.75,3363.8,Month-to-month,DSL,No,Yes,1
+CUST-1021,60,103.36,6209.79,Month-to-month,No,No,Yes,1
+CUST-1022,15,89.83,1355.58,Month-to-month,Fiber optic,No,Yes,1
+CUST-1023,62,96.33,6019.84,Two year,No,Yes,Yes,0
+CUST-1024,62,46.79,2929.0,One year,DSL,No,No,0
+CUST-1025,47,36.86,1755.69,Month-to-month,Fiber optic,No,Yes,0
+CUST-1026,62,91.31,5702.61,Month-to-month,Fiber optic,No,Yes,1
+CUST-1027,51,96.65,4971.73,Two year,DSL,No,No,0
+CUST-1028,55,114.1,6295.34,Month-to-month,Fiber optic,No,No,0
+CUST-1029,64,59.2,3824.93,One year,DSL,No,Yes,0
+CUST-1030,3,55.34,205.73,Month-to-month,Fiber optic,Yes,No,0
+CUST-1031,51,93.76,4816.18,One year,DSL,Yes,Yes,0
+CUST-1032,7,52.38,378.46,Month-to-month,Fiber optic,No,No,1
+CUST-1033,21,108.42,2321.28,Two year,No,No,No,1
+CUST-1034,39,101.55,3989.68,Two year,No,Yes,No,0
+CUST-1035,18,60.75,1111.29,One year,No,Yes,Yes,0
+CUST-1036,4,91.33,389.47,One year,DSL,Yes,Yes,0
+CUST-1037,60,91.68,5507.59,Two year,Fiber optic,No,Yes,0
+CUST-1038,14,29.8,427.91,One year,DSL,Yes,Yes,0
+CUST-1039,9,105.74,991.13,Month-to-month,Fiber optic,No,Yes,1
+CUST-1040,53,68.0,3608.95,One year,Fiber optic,Yes,No,0
+CUST-1041,2,98.51,220.77,One year,Fiber optic,No,Yes,1
+CUST-1042,60,50.4,3052.8,Month-to-month,DSL,Yes,Yes,0
+CUST-1043,71,105.07,7467.76,One year,DSL,No,No,0
+CUST-1044,44,56.97,2555.65,Two year,DSL,Yes,Yes,0
+CUST-1045,8,21.03,183.41,Two year,Fiber optic,No,No,0
+CUST-1046,47,106.01,5001.22,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1047,35,28.67,1022.21,Month-to-month,No,No,Yes,0
+CUST-1048,36,50.33,1827.42,Two year,Fiber optic,No,Yes,0
+CUST-1049,50,110.26,5517.86,Two year,DSL,No,Yes,0
+CUST-1050,4,110.31,479.05,Month-to-month,Fiber optic,No,No,1
+CUST-1051,2,74.48,197.46,Two year,DSL,No,Yes,1
+CUST-1052,6,80.02,495.24,Two year,DSL,No,Yes,0
+CUST-1053,54,62.6,3415.36,Month-to-month,Fiber optic,No,Yes,0
+CUST-1054,4,47.86,229.81,One year,Fiber optic,No,Yes,0
+CUST-1055,54,51.22,2809.23,Month-to-month,DSL,No,No,0
+CUST-1056,63,83.89,5309.04,Month-to-month,DSL,No,Yes,0
+CUST-1057,18,91.48,1665.19,Month-to-month,Fiber optic,No,No,1
+CUST-1058,44,95.2,4208.44,Two year,No,No,No,0
+CUST-1059,34,95.01,3267.53,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1060,62,28.66,1818.96,Month-to-month,Fiber optic,No,No,0
+CUST-1061,14,66.97,950.75,Month-to-month,No,No,Yes,1
+CUST-1062,48,25.47,1244.16,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1063,15,72.21,1128.67,Two year,DSL,No,Yes,0
+CUST-1064,62,61.95,3881.92,Month-to-month,Fiber optic,Yes,No,0
+CUST-1065,40,104.33,4222.59,Month-to-month,Fiber optic,No,No,1
+CUST-1066,53,53.34,2865.8,One year,No,Yes,Yes,0
+CUST-1067,24,31.12,769.61,Month-to-month,Fiber optic,No,No,0
+CUST-1068,26,33.58,904.77,Month-to-month,No,No,Yes,0
+CUST-1069,60,92.34,5575.36,Month-to-month,Fiber optic,No,Yes,1
+CUST-1070,41,78.73,3236.49,Month-to-month,Fiber optic,No,Yes,1
+CUST-1071,29,29.61,888.1,Month-to-month,Fiber optic,No,No,1
+CUST-1072,15,27.99,456.77,Month-to-month,DSL,No,No,1
+CUST-1073,45,86.59,3909.17,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1074,65,26.91,1789.44,Two year,No,No,Yes,0
+CUST-1075,71,98.08,6994.72,Month-to-month,DSL,Yes,Yes,0
+CUST-1076,9,87.09,831.69,One year,No,No,Yes,0
+CUST-1077,1,27.73,34.64,One year,Fiber optic,No,Yes,0
+CUST-1078,8,28.06,241.42,Month-to-month,No,No,No,1
+CUST-1079,63,113.73,7197.11,One year,DSL,No,Yes,0
+CUST-1080,11,55.56,629.46,Month-to-month,DSL,No,Yes,0
+CUST-1081,8,55.21,478.84,Two year,No,No,Yes,1
+CUST-1082,35,97.22,3441.71,Month-to-month,DSL,Yes,No,0
+CUST-1083,35,109.99,3859.21,Month-to-month,DSL,No,No,1
+CUST-1084,33,113.67,3779.24,Month-to-month,Fiber optic,Yes,Yes,1
+CUST-1085,5,91.57,485.75,Two year,Fiber optic,No,No,0
+CUST-1086,41,55.74,2307.15,Month-to-month,No,No,Yes,0
+CUST-1087,28,27.93,829.09,One year,DSL,No,Yes,0
+CUST-1088,7,93.83,699.04,Month-to-month,DSL,Yes,Yes,1
+CUST-1089,12,73.05,912.96,One year,DSL,No,Yes,1
+CUST-1090,34,60.3,2087.38,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1091,33,106.1,3527.2,Two year,Fiber optic,No,No,0
+CUST-1092,48,30.56,1513.51,Month-to-month,DSL,Yes,No,0
+CUST-1093,23,66.8,1572.64,Month-to-month,Fiber optic,No,No,1
+CUST-1094,62,21.08,1344.68,Month-to-month,Fiber optic,No,Yes,1
+CUST-1095,37,64.52,2431.12,Month-to-month,DSL,No,Yes,0
+CUST-1096,44,25.35,1132.68,One year,Fiber optic,No,No,0
+CUST-1097,35,31.29,1136.39,Month-to-month,DSL,No,Yes,0
+CUST-1098,65,31.16,2039.51,One year,Fiber optic,No,Yes,0
+CUST-1099,47,81.67,3859.26,Month-to-month,DSL,No,Yes,1
+CUST-1100,3,90.87,292.73,Month-to-month,Fiber optic,No,No,1
+CUST-1101,1,75.42,124.45,Month-to-month,DSL,No,Yes,1
+CUST-1102,5,111.41,600.58,Month-to-month,Fiber optic,No,Yes,1
+CUST-1103,14,55.61,815.13,One year,Fiber optic,No,No,0
+CUST-1104,27,47.14,1310.57,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1105,9,102.52,952.95,Month-to-month,DSL,No,Yes,1
+CUST-1106,15,41.24,666.24,Two year,DSL,Yes,Yes,0
+CUST-1107,42,111.51,4710.59,Two year,Fiber optic,No,Yes,0
+CUST-1108,51,21.15,1101.01,Month-to-month,DSL,No,No,0
+CUST-1109,63,112.14,7077.06,Month-to-month,No,No,Yes,1
+CUST-1110,52,24.1,1293.59,One year,DSL,No,Yes,0
+CUST-1111,4,104.66,456.68,Month-to-month,Fiber optic,No,No,1
+CUST-1112,23,70.13,1635.32,Month-to-month,DSL,No,No,1
+CUST-1113,15,114.33,1721.11,Month-to-month,Fiber optic,No,No,1
+CUST-1114,43,27.01,1204.21,One year,Fiber optic,Yes,Yes,0
+CUST-1115,29,72.62,2111.38,One year,No,No,Yes,0
+CUST-1116,36,112.08,4071.68,Month-to-month,Fiber optic,Yes,No,0
+CUST-1117,13,69.69,954.69,Month-to-month,DSL,No,No,1
+CUST-1118,32,79.79,2578.07,Month-to-month,DSL,No,Yes,1
+CUST-1119,71,86.1,6128.4,One year,DSL,No,Yes,0
+CUST-1120,59,63.18,3764.42,Month-to-month,DSL,No,Yes,0
+CUST-1121,28,79.62,2271.08,Month-to-month,Fiber optic,No,No,1
+CUST-1122,66,75.51,5013.24,One year,Fiber optic,Yes,Yes,0
+CUST-1123,42,105.61,4484.14,Month-to-month,DSL,No,Yes,1
+CUST-1124,45,24.32,1101.61,One year,Fiber optic,No,Yes,0
+CUST-1125,62,46.69,2922.59,Month-to-month,Fiber optic,No,No,0
+CUST-1126,57,110.29,6323.81,Month-to-month,Fiber optic,No,No,1
+CUST-1127,6,104.58,671.27,Month-to-month,Fiber optic,No,Yes,1
+CUST-1128,28,63.29,1785.11,One year,Fiber optic,Yes,No,0
+CUST-1129,28,78.91,2250.55,Two year,Fiber optic,No,No,0
+CUST-1130,44,46.35,2069.33,Two year,DSL,No,Yes,0
+CUST-1131,30,37.87,1158.99,Month-to-month,DSL,Yes,Yes,0
+CUST-1132,62,64.05,3982.11,One year,No,No,Yes,0
+CUST-1133,62,53.57,3365.18,Month-to-month,Fiber optic,Yes,No,0
+CUST-1134,1,75.45,87.52,Month-to-month,Fiber optic,Yes,Yes,1
+CUST-1135,27,27.38,758.33,Two year,Fiber optic,Yes,No,0
+CUST-1136,62,112.57,6997.24,Month-to-month,DSL,No,No,1
+CUST-1137,3,113.69,385.28,Month-to-month,DSL,No,Yes,1
+CUST-1138,70,86.33,6078.05,Month-to-month,Fiber optic,No,No,0
+CUST-1139,27,70.93,1955.94,Month-to-month,No,No,Yes,1
+CUST-1140,9,49.41,460.92,Month-to-month,Fiber optic,No,Yes,1
+CUST-1141,62,97.31,6066.37,One year,DSL,No,No,0
+CUST-1142,37,85.05,3177.56,Month-to-month,DSL,No,No,1
+CUST-1143,51,35.45,1850.36,Two year,No,Yes,Yes,0
+CUST-1144,44,106.54,4733.45,Two year,DSL,No,No,0
+CUST-1145,24,98.14,2360.93,Month-to-month,No,Yes,No,1
+CUST-1146,59,110.23,6538.96,Month-to-month,Fiber optic,No,Yes,1
+CUST-1147,32,88.94,2853.52,Month-to-month,No,No,No,1
+CUST-1148,52,78.27,4099.97,One year,Fiber optic,Yes,Yes,0
+CUST-1149,62,59.73,3721.39,Month-to-month,No,Yes,Yes,0
+CUST-1150,58,108.61,6318.14,One year,DSL,No,Yes,0
+CUST-1151,52,102.28,5339.24,Month-to-month,No,No,No,1
+CUST-1152,12,24.3,324.51,One year,DSL,Yes,No,0
+CUST-1153,39,22.5,897.72,Month-to-month,DSL,No,Yes,0
+CUST-1154,2,55.76,149.5,Month-to-month,DSL,Yes,Yes,1
+CUST-1155,3,97.0,314.21,Two year,DSL,No,No,1
+CUST-1156,56,113.79,6380.38,One year,Fiber optic,No,Yes,0
+CUST-1157,59,34.29,2063.36,Month-to-month,Fiber optic,Yes,No,0
+CUST-1158,2,76.44,170.74,Two year,Fiber optic,Yes,No,0
+CUST-1159,2,56.18,136.84,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1160,54,112.14,6091.51,Two year,No,No,No,0
+CUST-1161,1,100.0,119.96,One year,Fiber optic,Yes,Yes,0
+CUST-1162,19,99.64,1900.73,Month-to-month,No,No,No,1
+CUST-1163,2,64.53,150.88,Month-to-month,Fiber optic,Yes,No,1
+CUST-1164,53,59.41,3196.12,Month-to-month,Fiber optic,No,No,0
+CUST-1165,44,45.97,2056.72,Month-to-month,DSL,No,Yes,0
+CUST-1166,32,25.36,846.6,One year,DSL,No,No,0
+CUST-1167,70,102.15,7183.86,Month-to-month,DSL,No,Yes,0
+CUST-1168,32,97.23,3125.17,Month-to-month,DSL,No,Yes,1
+CUST-1169,68,114.97,7842.0,Two year,DSL,No,Yes,0
+CUST-1170,55,114.68,6346.22,Two year,Fiber optic,No,Yes,0
+CUST-1171,56,72.77,4084.46,Month-to-month,No,No,Yes,0
+CUST-1172,17,93.05,1599.42,Month-to-month,No,Yes,No,0
+CUST-1173,38,109.75,4188.04,Month-to-month,DSL,No,No,1
+CUST-1174,24,100.72,2441.64,Month-to-month,Fiber optic,No,Yes,1
+CUST-1175,69,43.5,3050.48,Two year,DSL,Yes,No,0
+CUST-1176,70,62.8,4404.16,Month-to-month,Fiber optic,No,Yes,0
+CUST-1177,11,32.27,383.31,One year,Fiber optic,No,No,0
+CUST-1178,16,110.63,1783.23,Month-to-month,Fiber optic,No,No,1
+CUST-1179,59,77.59,4626.29,One year,DSL,No,Yes,0
+CUST-1180,70,41.72,2930.57,One year,No,No,No,0
+CUST-1181,3,83.81,274.6,Two year,DSL,Yes,Yes,0
+CUST-1182,20,78.72,1612.65,Month-to-month,DSL,No,Yes,1
+CUST-1183,59,54.03,3224.21,Month-to-month,Fiber optic,No,No,0
+CUST-1184,36,30.79,1132.39,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1185,19,83.8,1612.78,Two year,Fiber optic,Yes,Yes,0
+CUST-1186,67,69.43,4674.65,Two year,No,No,Yes,0
+CUST-1187,19,93.37,1790.93,One year,Fiber optic,Yes,No,0
+CUST-1188,20,69.42,1402.55,One year,No,No,Yes,0
+CUST-1189,71,100.96,7194.7,One year,DSL,Yes,Yes,0
+CUST-1190,52,72.43,3783.5,Month-to-month,Fiber optic,Yes,No,0
+CUST-1191,33,73.29,2436.48,Two year,DSL,Yes,No,0
+CUST-1192,40,103.28,4165.84,Month-to-month,DSL,No,Yes,1
+CUST-1193,39,58.33,2323.49,Month-to-month,No,No,Yes,1
+CUST-1194,1,32.73,64.9,Month-to-month,No,No,Yes,1
+CUST-1195,11,22.73,258.54,Month-to-month,Fiber optic,No,Yes,1
+CUST-1196,57,91.74,5237.47,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1197,50,78.93,3994.28,One year,DSL,No,No,0
+CUST-1198,23,86.89,2016.79,Month-to-month,No,No,No,1
+CUST-1199,31,40.23,1256.32,One year,Fiber optic,No,No,0
+CUST-1200,42,32.96,1416.08,Month-to-month,DSL,Yes,Yes,0
+CUST-1201,7,21.38,182.74,Month-to-month,DSL,No,No,1
+CUST-1202,16,53.31,887.08,Month-to-month,DSL,Yes,Yes,0
+CUST-1203,60,76.04,4579.56,Month-to-month,Fiber optic,No,No,0
+CUST-1204,2,57.26,120.21,One year,DSL,No,No,0
+CUST-1205,1,61.56,109.99,Month-to-month,No,No,Yes,1
+CUST-1206,48,105.9,5099.25,One year,Fiber optic,No,No,0
+CUST-1207,12,53.08,672.43,Month-to-month,Fiber optic,No,Yes,1
+CUST-1208,69,68.83,4786.0,One year,No,No,No,0
+CUST-1209,37,94.45,3526.99,Two year,Fiber optic,No,Yes,0
+CUST-1210,32,57.67,1864.57,One year,No,No,Yes,0
+CUST-1211,9,79.1,729.08,Month-to-month,DSL,No,No,1
+CUST-1212,19,101.92,1968.46,Month-to-month,Fiber optic,No,Yes,1
+CUST-1213,48,110.2,5333.79,Month-to-month,No,No,No,1
+CUST-1214,3,33.97,149.52,One year,Fiber optic,No,Yes,0
+CUST-1215,20,108.03,2170.28,Month-to-month,DSL,No,No,1
+CUST-1216,24,66.75,1613.99,Month-to-month,Fiber optic,Yes,No,0
+CUST-1217,54,44.53,2452.31,One year,DSL,No,Yes,0
+CUST-1218,33,63.62,2137.53,Month-to-month,Fiber optic,Yes,Yes,0
+CUST-1219,24,113.1,2759.21,One year,Fiber optic,No,Yes,1
+CUST-1220,36,66.8,2418.87,Month-to-month,No,No,Yes,1
+CUST-1221,38,51.23,1978.23,Month-to-month,Fiber optic,No,Yes,0
+CUST-1222,25,80.17,2040.88,One year,DSL,No,No,0
+CUST-1223,18,42.81,806.25,Month-to-month,Fiber optic,No,No,1
+CUST-1224,66,27.21,1819.03,One year,DSL,No,No,0
+CUST-1225,54,32.24,1746.85,Month-to-month,Fiber optic,No,No,0
+CUST-1226,35,32.16,1156.98,Month-to-month,No,Yes,No,0
+CUST-1227,61,34.43,2116.67,Two year,DSL,No,No,0
+CUST-1228,41,33.19,1385.99,One year,Fiber optic,Yes,Yes,0
+CUST-1229,33,80.88,2717.23,One year,Fiber optic,No,No,0
+CUST-1230,68,37.28,2557.9,Month-to-month,Fiber optic,No,No,0
+CUST-1231,33,52.84,1786.46,One year,DSL,No,Yes,0
+CUST-1232,14,105.19,1486.21,Month-to-month,Fiber optic,Yes,Yes,1
+CUST-1233,21,65.03,1400.81,Month-to-month,No,Yes,Yes,0
+CUST-1234,48,83.42,4053.03,Two year,Fiber optic,No,Yes,0
+CUST-1235,20,36.37,736.99,Month-to-month,Fiber optic,Yes,No,0
+CUST-1236,8,38.27,311.51,Two year,DSL,Yes,Yes,0
+CUST-1237,7,23.88,191.69,Month-to-month,DSL,Yes,Yes,1
+CUST-1238,67,36.05,2424.44,Month-to-month,Fiber optic,No,No,0
+CUST-1239,17,46.47,828.6,Month-to-month,Fiber optic,No,Yes,1
+CUST-1240,33,36.82,1261.08,Two year,Fiber optic,No,Yes,0
+CUST-1241,48,28.43,1389.01,One year,DSL,Yes,Yes,0
+CUST-1242,59,31.46,1872.81,Two year,DSL,No,No,0
+CUST-1243,22,63.77,1427.58,One year,DSL,No,No,0
+CUST-1244,30,39.6,1225.61,One year,No,No,Yes,0
+CUST-1245,38,54.61,2080.42,Two year,No,Yes,No,0
+CUST-1246,51,67.82,3490.58,Month-to-month,DSL,Yes,Yes,0
+CUST-1247,54,85.59,4654.32,Month-to-month,No,Yes,No,0
+CUST-1248,8,23.73,223.57,Month-to-month,Fiber optic,No,No,1
+CUST-1249,27,95.94,2606.38,Two year,Fiber optic,No,No,1
+CUST-1250,27,79.65,2187.7,Two year,Fiber optic,Yes,Yes,0
+CUST-1251,21,27.77,592.22,Month-to-month,Fiber optic,Yes,No,0
+CUST-1252,30,102.99,3103.67,One year,DSL,Yes,No,0
+CUST-1253,28,107.48,3054.01,Two year,No,No,Yes,0
+CUST-1254,64,25.8,1689.6,Month-to-month,Fiber optic,Yes,No,0
+CUST-1255,69,46.3,3200.55,One year,Fiber optic,No,Yes,0
+CUST-1256,61,96.59,5908.11,Two year,DSL,No,No,0
+CUST-1257,48,91.08,4386.71,Month-to-month,No,No,Yes,0
+CUST-1258,19,37.53,730.25,One year,Fiber optic,Yes,No,0
+CUST-1259,4,39.89,175.69,Month-to-month,DSL,Yes,Yes,1
+CUST-1260,35,55.19,1939.63,Two year,Fiber optic,No,Yes,0
+CUST-1261,64,66.03,4251.55,Two year,Fiber optic,No,Yes,0
+CUST-1262,49,78.73,3895.95,Two year,No,No,Yes,0
+CUST-1263,17,55.05,968.1,Month-to-month,No,No,Yes,1
+CUST-1264,44,63.94,2848.67,Two year,Fiber optic,Yes,Yes,0
+CUST-1265,30,91.01,2738.94,Two year,No,No,Yes,1
+CUST-1266,46,23.48,1128.12,Month-to-month,DSL,No,Yes,0
+CUST-1267,6,43.98,306.62,Two year,No,Yes,Yes,0
+CUST-1268,37,87.77,3288.65,Month-to-month,DSL,No,No,1
+CUST-1269,24,105.04,2563.11,One year,DSL,No,Yes,1
+CUST-1270,46,68.61,3203.0,Month-to-month,DSL,No,No,0
+CUST-1271,53,70.55,3768.68,Month-to-month,DSL,No,No,0
+CUST-1272,60,30.18,1824.89,Month-to-month,Fiber optic,No,No,0
+CUST-1273,63,62.5,3970.52,One year,Fiber optic,No,Yes,0
+CUST-1274,32,70.6,2297.59,Month-to-month,Fiber optic,Yes,No,0
+CUST-1275,33,43.03,1458.35,One year,DSL,No,Yes,0
+CUST-1276,67,45.58,3082.2,Month-to-month,Fiber optic,No,Yes,0
+CUST-1277,18,55.84,1013.24,Month-to-month,DSL,Yes,Yes,0
+CUST-1278,25,21.91,569.37,Month-to-month,No,No,No,0
+CUST-1279,54,50.6,2778.7,One year,Fiber optic,No,Yes,0
+CUST-1280,58,40.09,2356.38,Month-to-month,DSL,No,Yes,1
+CUST-1281,67,51.11,3453.75,One year,Fiber optic,No,No,0
+CUST-1282,46,31.38,1460.46,Two year,No,No,No,0
+CUST-1283,24,104.6,2531.98,One year,Fiber optic,Yes,Yes,0
+CUST-1284,32,76.39,2489.81,Month-to-month,DSL,Yes,Yes,0
+CUST-1285,47,84.51,4007.18,Month-to-month,No,Yes,No,0
+CUST-1286,23,94.97,2224.77,Two year,No,No,Yes,0
+CUST-1287,66,67.35,4470.68,Month-to-month,DSL,No,Yes,0
+CUST-1288,27,28.26,796.31,Two year,DSL,Yes,Yes,0
+CUST-1289,2,71.03,158.23,Month-to-month,DSL,No,No,1
+CUST-1290,17,75.75,1324.49,Two year,No,No,No,0
+CUST-1291,33,90.82,3021.19,One year,DSL,No,No,0
+CUST-1292,9,61.01,573.98,Two year,Fiber optic,No,No,1
+CUST-1293,43,32.12,1415.39,Month-to-month,No,Yes,Yes,0
+CUST-1294,48,46.96,2301.15,One year,DSL,No,Yes,0
+CUST-1295,39,54.49,2133.1,Month-to-month,DSL,No,Yes,0
+CUST-1296,42,81.36,3459.32,Month-to-month,Fiber optic,No,Yes,1
+CUST-1297,26,74.22,1947.98,One year,DSL,No,Yes,1
+CUST-1298,50,53.83,2716.44,Two year,Fiber optic,No,No,0
+CUST-1299,25,113.72,2848.96,Two year,DSL,No,No,0
+CUST-1300,24,77.55,1879.71,One year,Fiber optic,Yes,No,0
+CUST-1301,13,42.54,580.59,Month-to-month,DSL,No,Yes,1
+CUST-1302,60,29.67,1787.69,Month-to-month,No,No,No,0
+CUST-1303,7,34.52,268.75,One year,Fiber optic,No,No,0
+CUST-1304,57,43.37,2518.58,Month-to-month,No,Yes,Yes,0
+CUST-1305,36,35.26,1279.27,Month-to-month,Fiber optic,Yes,No,0
+CUST-1306,45,37.72,1736.97,Month-to-month,No,Yes,Yes,0
+CUST-1307,20,47.08,965.12,Month-to-month,DSL,No,Yes,0
+CUST-1308,65,36.47,2405.06,Month-to-month,DSL,No,Yes,0
+CUST-1309,8,105.19,858.25,Month-to-month,DSL,Yes,Yes,0
+CUST-1310,16,27.62,454.13,Month-to-month,No,No,Yes,1
+CUST-1311,14,69.83,989.82,Month-to-month,Fiber optic,No,No,1
+CUST-1312,15,58.99,892.99,Two year,Fiber optic,No,No,0
+CUST-1313,66,113.33,7492.87,Month-to-month,DSL,No,No,1
+CUST-1314,32,30.64,1015.49,Month-to-month,No,No,No,0
+CUST-1315,63,57.8,3685.84,One year,DSL,No,Yes,0
+CUST-1316,51,112.1,5758.72,Month-to-month,DSL,Yes,No,0
+CUST-1317,25,102.22,2591.41,Two year,Fiber optic,No,Yes,0
+CUST-1318,58,97.62,5672.04,One year,No,No,Yes,0
+CUST-1319,63,44.5,2821.56,Month-to-month,Fiber optic,No,Yes,0
